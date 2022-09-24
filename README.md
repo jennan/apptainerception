@@ -1,4 +1,7 @@
-# Notes
+# Apptainer-ception
+
+
+## Usage
 
 - make sure to be on a Milan node
 - load modules
@@ -24,3 +27,9 @@ apptainer run --no-home -B $(pwd) ubuntu_apptainer.sif image.sif image.def
 ```
 
 The `--no-home` option avoid a dummy `.bash_history` to be created in the local folder.
+
+
+## Explanation
+
+The key to making `apptainer build` work inside apptainer is to unset the `APPTAINER_BIND` variable before calling `apptainer build` inside the container.
+Otherwise, it will fail when trying to mount the folders, with an error message saying that they do not exist.
