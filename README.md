@@ -33,3 +33,17 @@ The `--no-home` option avoid a dummy `.bash_history` to be created in the local 
 
 The key to making `apptainer build` work inside apptainer is to unset the `APPTAINER_BIND` variable before calling `apptainer build` inside the container.
 Otherwise, it will fail when trying to mount the folders, with an error message saying that they do not exist.
+
+
+## TODO
+
+- update usage with `builder.bash`
+  - add example of `srun` to milan node
+  - explain how/why create `APPTAINER_CACHEDIR` and `APPTAINER_TMPDIR`
+  - add mention to `APPTAINER_BINDPATH` for extra bindings
+- put the repo on github
+  - add CI to generate `builder.sif`
+  - run directly from github package in `builder.bash` and rely on cache
+  - add a mention that this repo is experimental / use it at your own risk / not supported
+- check if `--no-home` is really needed to avoid the dummy `.bashrc`
+- add bindings to typical NeSI folders (project, nobackup, etc.)
