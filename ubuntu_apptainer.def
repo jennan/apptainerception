@@ -1,0 +1,8 @@
+BootStrap: docker
+From: ubuntu:20.04
+
+%post
+    apt-get -y update
+    apt-get install -y wget
+    wget https://github.com/apptainer/apptainer/releases/download/v1.1.0-rc.2/apptainer_1.1.0-rc.2_amd64.deb
+    apt-get install -y ./apptainer_1.1.0-rc.2_amd64.deb
