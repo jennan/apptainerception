@@ -12,7 +12,7 @@ module purge && module load Apptainer/1.0.3
 module unload Xalt
 ```
 
-- get your APPTAINER_TMPDIR and APPTAINER_CACHEDIR configured
+- pass your APPTAINER_TMPDIR and APPTAINER_CACHEDIR to the container
 
 ```
 export APPTAINERENV_APPTAINER_CACHEDIR="$APPTAINER_CACHEDIR"
