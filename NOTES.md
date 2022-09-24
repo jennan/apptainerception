@@ -1,20 +1,19 @@
 # Notes
 
 - make sure to be on a Milan node
-- get an working image with apptainer installed it
 - load modules
 
-```
+```bash
 . /etc/bashrc  # to get modules working
 module purge && module load Apptainer/1.0.3
 module unload Xalt
 ```
 
 - get your APPTAINER_TMPDIR and APPTAINER_CACHEDIR configured (not sure it is needed)
-- execute the build, ensuring the APPTAINER_BIND variable is not inherited
+- run the builder image in the image folder
 
+```bash
+apptainer run --no-home -B $(pwd) ubuntu_apptainer.sif image.sif image.def
 ```
-apptainer exec -B $(pwd) ubuntu_apptainer.sif \
-    bash -c "APPTAINER_BIND='' apptainer build image.sif image.def"
-```
- 
+
+The `--no-home` option avoid a dummy `.bash_history` to be created in the local folder.
