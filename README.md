@@ -1,49 +1,49 @@
 # Apptainer-ception
 
+This repository provides a tool to build [Apptainer](https://apptainer.org/) containers on [NeSI](https://www.nesi.org.nz).
+
+This code is experimental, unsupported, subject to change, provided **without any garantee** that it will not eat your data and your cookies.
+
 
 ## Usage
 
-- make sure to be on a Milan node
-- load modules
+Log in Mahuika via SSH, then clone this repository:
 
 ```bash
-. /etc/bashrc  # to get modules working
-module purge && module load Apptainer/1.0.3
-module unload Xalt
+git clone https://github.com/jennan/apptainerception.git
 ```
 
-- pass your APPTAINER_TMPDIR and APPTAINER_CACHEDIR to the container
-
-```
-export APPTAINERENV_APPTAINER_CACHEDIR="$APPTAINER_CACHEDIR"
-export APPTAINERENV_APPTAINER_TMPDIR="$APPTAINER_TMPDIR"
-export APPTAINER_BINDPATH="$APPTAINER_TMPDIR,$APPTAINER_CACHEDIR"
-```
-
-- run the builder image in the image folder
+Make sure to have a build directory and a cache directory for Apptainer, for example:
 
 ```bash
-apptainer run --no-home -B $(pwd) ubuntu_apptainer.sif image.sif image.def
+export APPTAINER_CACHEDIR=/nesi/nobackup/PROJECT_ID/apptainer_cachedir
+export APPTAINER_TMPDIR=/nesi/nobackup/PROJECT_ID/apptainer_tmpdir
+mkdir -p "$APPTAINER_CACHEDIR" "$APPTAINER_TMPDIR"
 ```
 
-The `--no-home` option avoid a dummy `.bash_history` to be created in the local folder.
+where `PROJECT_ID` is your NeSI project number.
+
+Run the builder script on a Mahuika extension node, for example:
+
+```
+srun -p milan --time 0-00:30:00 --mem 4GB --cpus-per-task 2 builder.bash my_container.sif my_container.def
+```
 
 
 ## Explanation
 
+This script behaves like the `apptainer build` command.
+It is actually wrapping an Apptainer container containing the `apptainer` tool, hence it's an apptainer-ception ;-).
+
 The key to making `apptainer build` work inside apptainer is to unset the `APPTAINER_BIND` variable before calling `apptainer build` inside the container.
 Otherwise, it will fail when trying to mount the folders, with an error message saying that they do not exist.
+
+The rest of the script ensures that the right modules are loaded on NeSI and the usual folders are defined as bind paths.
 
 
 ## TODO
 
-- update usage with `builder.bash`
-  - add example of `srun` to milan node
-  - explain how/why create `APPTAINER_CACHEDIR` and `APPTAINER_TMPDIR`
-  - add mention to `APPTAINER_BINDPATH` for extra bindings
-- put the repo on github
-  - add CI to generate `builder.sif`
-  - run directly from github package in `builder.bash` and rely on cache
-  - add a mention that this repo is experimental / use it at your own risk / not supported
+- add CI to generate `builder.sif`
+- run directly from github package in `builder.bash` and rely on cache
 - check if `--no-home` is really needed to avoid the dummy `.bashrc`
 - add bindings to typical NeSI folders (project, nobackup, etc.)
