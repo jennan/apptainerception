@@ -37,6 +37,7 @@ It is actually wrapping an Apptainer container containing the `apptainer` tool, 
 
 The key to making `apptainer build` work inside apptainer is to unset the `APPTAINER_BIND` variable before calling `apptainer build` inside the container.
 Otherwise, it will fail when trying to mount the folders, with an error message saying that they do not exist.
+This is implemented in the `%runscript` section of the builder container.
 
 The rest of the script ensures that the right modules are loaded on NeSI and the usual folders are defined as bind paths.
 
@@ -54,9 +55,3 @@ try to log out of oras://ghcr.io before retrying
 ```bash
 apptainer remote logout oras://ghcr.io
 ```
-
-
-## TODO
-
-- check if `--no-home` is really needed to avoid the dummy `.bashrc`
-- add bindings to typical NeSI folders (project, nobackup, etc.)

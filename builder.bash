@@ -24,7 +24,16 @@ fi
 
 export APPTAINERENV_APPTAINER_CACHEDIR="$APPTAINER_CACHEDIR"
 export APPTAINERENV_APPTAINER_TMPDIR="$APPTAINER_TMPDIR"
-export APPTAINER_BINDPATH="${APPTAINER_BINDPATH:-},$APPTAINER_TMPDIR,$APPTAINER_CACHEDIR"
+
+export APPTAINER_BINDPATH="\
+    ${APPTAINER_BINDPATH:-},\
+    $APPTAINER_TMPDIR,\
+    $APPTAINER_CACHEDIR,\
+    ${HOME}:/home/${USER},\
+    /nesi/project,\
+    /nesi/nobackup,\
+    /scale_wlg_persistent,\
+    /scale_wlg_nobackup"
 
 # pass all parameters to the builder container
-apptainer run --no-home -B $(pwd) oras://ghcr.io/jennan/apptainerception:main $*
+apptainer run oras://ghcr.io/jennan/apptainerception:main $*
