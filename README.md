@@ -2,7 +2,7 @@
 
 This repository provides a tool to build [Apptainer](https://apptainer.org/) containers on [NeSI](https://www.nesi.org.nz).
 
-This code is experimental, unsupported, subject to change, provided **without any garantee** that it will not eat your data and your cookies.
+This code is experimental, unsupported, subject to change, provided **without any guarantee** that it will not eat your data and your cookies.
 
 
 ## Usage
