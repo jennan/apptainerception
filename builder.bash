@@ -27,4 +27,4 @@ export APPTAINERENV_APPTAINER_TMPDIR="$APPTAINER_TMPDIR"
 export APPTAINER_BINDPATH="${APPTAINER_BINDPATH:-},$APPTAINER_TMPDIR,$APPTAINER_CACHEDIR"
 
 # pass all parameters to the builder container
-apptainer run --no-home -B $(pwd) builder.sif $*
+apptainer run --no-home -B $(pwd) oras://ghcr.io/jennan/apptainerception:main $*
